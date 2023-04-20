@@ -64,7 +64,7 @@ public class Agenda extends WindowAdapter implements ActionListener {
         lEndereco.setBounds(10, 59, 60, 13);
         tEndereco.setBounds(70, 56, 270, 19);
         lFone.setBounds(10, 83, 60, 13);
-        tFone.setBounds(70, 80, 86, 19);
+        tFone.setBounds(70, 80, 80, 19);
         lCelular.setBounds(180, 83, 50, 13);
         tCelular.setBounds(240, 80, 100, 19);
         lSexo.setBounds(10, 105, 30, 13);
