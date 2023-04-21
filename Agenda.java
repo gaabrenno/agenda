@@ -3,6 +3,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.text.LabelView;
 import java.util.Vector;
 
 // A classe Vector implementa um array redimensionável de objetos. Assim como um array, objetos da //classe Vector contém elementos que podem ser acessados via índices.
@@ -11,7 +12,7 @@ public class Agenda extends WindowAdapter implements ActionListener {
 // windowOpened(),windowClosing(),windowClosed(), etc...
     private Frame janela;
     private Panel painelEndereco, painelBotoes;
-    private Label lCodigo, lNome, lEndereco, lFone, lCelular, lSexo, lObservacao;
+    private Label lCodigo, lNome, lEndereco, lFone, lCelular, lSexo, lObservacao, lTitulo;
     private TextField tCodigo, tNome, tEndereco, tFone, tCelular;
     private TextArea tObs;
     private Button bNovo, bSalva, bExclui, bProximo, bAnterior;
@@ -49,7 +50,8 @@ public class Agenda extends WindowAdapter implements ActionListener {
         lFone = new Label("Fone:");
         lCelular = new Label("Celular:");
         lSexo = new Label("Sexo:");
-        lObservacao = new Label("Observação:");
+        lObservacao = new Label("Obs.:");
+       // lTitulo = new Label("Agenda");
 //Método Construtor Criacao de TextFields
         tCodigo = new TextField(10);
         tNome = new TextField(45);
@@ -57,6 +59,7 @@ public class Agenda extends WindowAdapter implements ActionListener {
         tFone = new TextField(8);
         tCelular = new TextField(9);
 //Substituicao do item pelo compomente especificado, na posicao indicada
+      //  lTitulo.setBounds(150, 10, 70, 20);
         lCodigo.setBounds(10, 15, 50, 13);
         tCodigo.setBounds(70, 12, 80, 19);
         lNome.setBounds(10, 37, 50, 13);
@@ -79,6 +82,7 @@ public class Agenda extends WindowAdapter implements ActionListener {
         tObs = new TextArea("", 15, 90, TextArea.SCROLLBARS_VERTICAL_ONLY);
         tObs.setBounds(70, 132, 270, 90);
 //Adiciona no frame painelEndereco os componentes criados
+        //janela.add(lTitulo);
         painelEndereco.add(lCodigo);
         painelEndereco.add(tCodigo);
         painelEndereco.add(lNome);
@@ -91,6 +95,7 @@ public class Agenda extends WindowAdapter implements ActionListener {
         painelEndereco.add(tCelular);
         painelEndereco.add(lSexo);
         painelEndereco.add(tObs);
+        painelEndereco.add(lObservacao);
         painelEndereco.add(masculino);
         painelEndereco.add(feminino);
 //Método Construtor Criacao de botoes e ativa o escutator(listener)
