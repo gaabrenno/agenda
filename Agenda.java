@@ -11,47 +11,93 @@ public class Agenda extends WindowAdapter implements ActionListener {
     //Declaracao WindowAdapter-manipulador de eventos de janela, junto com ActionListener ()
 // windowOpened(),windowClosing(),windowClosed(), etc...
     private Frame janela;
-    private Panel painelEndereco, painelBotoes;
-    private Label lCodigo, lNome, lEndereco, lFone, lCelular, lSexo, lObservacao, lTitulo;
+    private Panel painelEndereco, painelBotoes, painelTitulo;
+    private Label lCodigo, lNome, lEndereco, lFone, lCelular, lSexo, lObservacao, lTitulo, lDarkMode;
     private TextField tCodigo, tNome, tEndereco, tFone, tCelular;
     private TextArea tObs;
     private Button bNovo, bSalva, bExclui, bProximo, bAnterior;
-    private CheckboxGroup cbgSexo;
-    private Checkbox masculino, feminino;
+    private CheckboxGroup cbgSexo, cbDarkMode;
+    private Checkbox masculino;
+    private Checkbox feminino;
+    private Checkbox On;
+    private Checkbox Of;
     private Vector vContatos;
     private int posicao;
 
     // Codigo das cores https://celke.com.br/artigo/tabela-de-cores-html-nome-hexadecimal-rgb
     //Método Construtor Criacao de vetor, frame
     public Agenda() {
+        //dark mode
+        cbDarkMode = new CheckboxGroup();
+        On = new Checkbox("On", false, cbDarkMode);
+        Of = new Checkbox("Of", true, cbDarkMode);
+        On.setBounds(265, 15, 35, 13);
+        Of.setBounds(307, 15, 35, 13);
+
         vContatos = new Vector();
         janela = new Frame();
-        janela.setTitle("Agenda");
-        janela.setSize(370, 414);
-        janela.setBackground(new Color(240, 255, 255)); //gb fundo Azure
-        janela.setLayout(null);
-        janela.addWindowListener(this);
+        if (cbDarkMode.getSelectedCheckbox().getLabel().equals("Of")) {
+            janela.setTitle("Agenda");
+            janela.setSize(370, 414);
+            janela.setBackground(new Color(240, 255, 255)); //gb fundo Azure
+            janela.setLayout(null);
+            janela.addWindowListener(this);
+        } else {
+            janela.setTitle("Agenda");
+            janela.setSize(370, 414);
+            janela.setBackground(new Color(133, 159, 159)); //gb fundo Azure
+            janela.setLayout(null);
+            janela.addWindowListener(this);
+        }
 //Método Construtor Criacao de Painel
+        painelTitulo = new Panel();
+        if (cbDarkMode.getSelectedCheckbox().getLabel().equals("Of")) {
+            painelTitulo.setBackground(new Color(176, 224, 230)); // PowderBlue
+            painelTitulo.setSize(350, 20);
+            painelTitulo.setLocation(10, 10);
+            painelTitulo.setLayout(null);
+        } else {
+            painelTitulo.setBackground(new Color(47, 80, 83)); // PowderBlue
+            painelTitulo.setSize(350, 20);
+            painelTitulo.setLocation(10, 10);
+            painelTitulo.setLayout(null);
+        }
         painelEndereco = new Panel();
-        painelEndereco.setBackground(new Color(176, 224, 230)); // PowderBlue
-        painelEndereco.setSize(350, 234);
-        painelEndereco.setLocation(10, 80);
-        painelEndereco.setLayout(null);
+        if (cbDarkMode.getSelectedCheckbox().getLabel().equals("Of")) {
+            painelEndereco.setBackground(new Color(176, 224, 230)); // PowderBlue
+            painelEndereco.setSize(350, 234);
+            painelEndereco.setLocation(10, 80);
+            painelEndereco.setLayout(null);
+        } else {
+            painelEndereco.setBackground(new Color(47, 80, 83)); // PowderBlue
+            painelEndereco.setSize(350, 234);
+            painelEndereco.setLocation(10, 80);
+            painelEndereco.setLayout(null);
+        }
 //Método Construtor Criacao de Painel
-        painelBotoes = new Panel();
-        painelBotoes.setBackground(new Color(176, 224, 230)); //  PowderBlue
-        painelBotoes.setSize(350, 34);
-        painelBotoes.setLocation(10, 344);
-        painelBotoes.setLayout(new FlowLayout());
+        if (cbDarkMode.getSelectedCheckbox().getLabel().equals("Of")) {
+            painelBotoes = new Panel();
+            painelBotoes.setBackground(new Color(176, 224, 230)); //  PowderBlue
+            painelBotoes.setSize(350, 34);
+            painelBotoes.setLocation(10, 344);
+            painelBotoes.setLayout(new FlowLayout());
+        } else {
+            painelBotoes = new Panel();
+            painelBotoes.setBackground(new Color(47, 80, 83)); //  PowderBlue
+            painelBotoes.setSize(350, 34);
+            painelBotoes.setLocation(10, 344);
+            painelBotoes.setLayout(new FlowLayout());
+        }
 //Método Construtor Criacao de Labels
         lCodigo = new Label("Codigo:");
+        lDarkMode = new Label("Dark Mode:");
         lNome = new Label("Nome:");
         lEndereco = new Label("Endereço:");
         lFone = new Label("Fone:");
         lCelular = new Label("Celular:");
         lSexo = new Label("Sexo:");
         lObservacao = new Label("Obs.:");
-       // lTitulo = new Label("Agenda");
+        lTitulo = new Label("Agenda");
 //Método Construtor Criacao de TextFields
         tCodigo = new TextField(10);
         tNome = new TextField(45);
@@ -59,18 +105,19 @@ public class Agenda extends WindowAdapter implements ActionListener {
         tFone = new TextField(8);
         tCelular = new TextField(9);
 //Substituicao do item pelo compomente especificado, na posicao indicada
-      //  lTitulo.setBounds(150, 10, 70, 20);
+        lTitulo.setBounds(150, 1, 70, 20);
         lCodigo.setBounds(10, 15, 50, 13);
         tCodigo.setBounds(70, 12, 80, 19);
+        lDarkMode.setBounds(190, 15, 70, 13);
         lNome.setBounds(10, 37, 50, 13);
         tNome.setBounds(70, 34, 270, 19);
-        lEndereco.setBounds(10, 59, 60, 13);
+        lEndereco.setBounds(10, 59, 60, 15);
         tEndereco.setBounds(70, 56, 270, 19);
         lFone.setBounds(10, 83, 60, 13);
         tFone.setBounds(70, 80, 80, 19);
-        lCelular.setBounds(180, 83, 50, 13);
+        lCelular.setBounds(190, 83, 50, 13);
         tCelular.setBounds(240, 80, 100, 19);
-        lSexo.setBounds(10, 105, 30, 13);
+        lSexo.setBounds(10, 105, 50, 13);
 //Método Construtor Criacao de CheckboxGroup
         cbgSexo = new CheckboxGroup();
         masculino = new Checkbox("Masculino", false, cbgSexo);
@@ -82,9 +129,9 @@ public class Agenda extends WindowAdapter implements ActionListener {
         tObs = new TextArea("", 15, 90, TextArea.SCROLLBARS_VERTICAL_ONLY);
         tObs.setBounds(70, 132, 270, 90);
 //Adiciona no frame painelEndereco os componentes criados
-        //janela.add(lTitulo);
         painelEndereco.add(lCodigo);
         painelEndereco.add(tCodigo);
+        painelEndereco.add(lDarkMode);
         painelEndereco.add(lNome);
         painelEndereco.add(tNome);
         painelEndereco.add(lEndereco);
@@ -98,6 +145,8 @@ public class Agenda extends WindowAdapter implements ActionListener {
         painelEndereco.add(lObservacao);
         painelEndereco.add(masculino);
         painelEndereco.add(feminino);
+        painelEndereco.add(On);
+        painelEndereco.add(Of);
 //Método Construtor Criacao de botoes e ativa o escutator(listener)
         bNovo = new Button("Novo");
         bNovo.addActionListener(this);
@@ -116,6 +165,8 @@ public class Agenda extends WindowAdapter implements ActionListener {
         painelBotoes.add(bProximo);
         painelBotoes.add(bAnterior);
         //adiciona na Janela os frames
+        //janela.add(painelTitulo);
+        janela.add(lTitulo);
         janela.add(painelEndereco);
         janela.add(painelBotoes);
         //Desabilita os botoes quando inicia o programa
