@@ -6,7 +6,8 @@ import javax.swing.*;
 import javax.swing.text.LabelView;
 import java.util.Vector;
 
-// A classe Vector implementa um array redimensionável de objetos. Assim como um array, objetos da //classe Vector contém elementos que podem ser acessados via índices.
+/*A classe Vector implementa um array redimensionável de objetos. Assim como um array, objetos da
+classe Vector contém elementos que podem ser acessados via índices.*/
 public class Agenda extends WindowAdapter implements ActionListener {
     //Declaracao WindowAdapter-manipulador de eventos de janela, junto com ActionListener ()
 // windowOpened(),windowClosing(),windowClosed(), etc...
@@ -42,6 +43,8 @@ public class Agenda extends WindowAdapter implements ActionListener {
             janela.setBackground(new Color(240, 255, 255)); //gb fundo Azure
             janela.setLayout(null);
             janela.addWindowListener(this);
+            janela.setLocationRelativeTo(null); //setar centro
+            janela.setResizable(false);
         } else {
             janela.setTitle("Agenda");
             janela.setSize(370, 414);
@@ -56,6 +59,7 @@ public class Agenda extends WindowAdapter implements ActionListener {
             painelTitulo.setSize(350, 20);
             painelTitulo.setLocation(10, 10);
             painelTitulo.setLayout(null);
+
         } else {
             painelTitulo.setBackground(new Color(47, 80, 83)); // PowderBlue
             painelTitulo.setSize(350, 20);
@@ -165,8 +169,7 @@ public class Agenda extends WindowAdapter implements ActionListener {
         painelBotoes.add(bProximo);
         painelBotoes.add(bAnterior);
         //adiciona na Janela os frames
-        //janela.add(painelTitulo);
-        janela.add(lTitulo);
+        janela.add(painelTitulo);
         janela.add(painelEndereco);
         janela.add(painelBotoes);
         //Desabilita os botoes quando inicia o programa
